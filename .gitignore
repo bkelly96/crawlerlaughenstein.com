@@ -25,3 +25,18 @@ replay_pid*
 
 # Local Claude Code instructions (not shared/committed)
 CLAUDE.md
+
+# Local environment secrets
+.env
+
+# Backend (Maven)
+backend/target/
+
+# Frontend (Node)
+frontend/node_modules/
+frontend/dist/
+
+# IDE
+.idea/
+*.iml
+.vscode/
