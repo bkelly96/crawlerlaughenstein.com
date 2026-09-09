@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { AbilitiesSection } from "../components/character/AbilitiesSection";
 import { CharacterSheetTabs, type CharacterTabId } from "../components/character/CharacterSheetTabs";
+import { OverviewCombatSection } from "../components/character/OverviewCombatSection";
 import { mockCharacter } from "../mocks/character";
+import type { CharacterSheet } from "../types/character";
 
 export function CharacterSheetPage() {
-  const character = mockCharacter;
+  const [character, setCharacter] = useState<CharacterSheet>(mockCharacter);
   const [activeTab, setActiveTab] = useState<CharacterTabId>("overview");
+
+  function updateCharacter(patch: Partial<CharacterSheet>) {
+    setCharacter((prev) => ({ ...prev, ...patch }));
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-4">
@@ -19,8 +26,8 @@ export function CharacterSheetPage() {
       <CharacterSheetTabs activeTab={activeTab} onChange={setActiveTab} />
 
       <div className="py-6">
-        {activeTab === "overview" && <Placeholder label="Overview & Combat" />}
-        {activeTab === "abilities" && <Placeholder label="Abilities" />}
+        {activeTab === "overview" && <OverviewCombatSection character={character} onChange={updateCharacter} />}
+        {activeTab === "abilities" && <AbilitiesSection character={character} onChange={updateCharacter} />}
         {activeTab === "attacks-skills" && <Placeholder label="Attacks & Skills" />}
         {activeTab === "inventory-gear" && <Placeholder label="Inventory & Gear" />}
         {activeTab === "race-class" && <Placeholder label="Race & Class" />}

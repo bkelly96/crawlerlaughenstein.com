@@ -13,7 +13,7 @@ export const mockCharacter: CharacterSheet = {
     slotValue: 4,
     marked: [false, false, false, false, false, false, false, false, false, false],
   },
-  evade: { rank: 2, dexMod: 3, buffs: 0 },
+  evade: { dexMod: 3, buffs: 0 },
   move: 30,
   step: 5,
   damageResistance: { armor: 4, buffs: 0 },
