@@ -55,7 +55,7 @@ export interface CharacterSheet {
   className: string;
   portraitUrl: string | null;
   health: HealthBarState;
-  evade: { rank: number; dexMod: number; buffs: number };
+  evade: { dexMod: number; buffs: number };
   move: number;
   step: number;
   damageResistance: { armor: number; buffs: number };
