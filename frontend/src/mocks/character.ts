@@ -1,0 +1,57 @@
+import type { CharacterSheet } from "../types/character";
+
+export const mockCharacter: CharacterSheet = {
+  id: "mock-1",
+  name: "Vex Halloway",
+  raceName: "Human",
+  genderPronouns: "She/Her",
+  level: 3,
+  crawlerNumber: "CL-0417",
+  className: "Skirmisher",
+  portraitUrl: null,
+  health: {
+    slotValue: 4,
+    marked: [false, false, false, false, false, false, false, false, false, false],
+  },
+  evade: { rank: 2, dexMod: 3, buffs: 0 },
+  move: 30,
+  step: 5,
+  damageResistance: { armor: 4, buffs: 0 },
+  aiFavor: 1,
+  size: "Medium",
+  externalBuffs: ["", "", ""],
+  abilities: {
+    strength: { enhanced: 14, unenhanced: 12, mod: 2 },
+    intelligence: { enhanced: 10, unenhanced: 10, mod: 0 },
+    constitution: { enhanced: 16, unenhanced: 14, mod: 3 },
+    dexterity: { enhanced: 17, unenhanced: 15, mod: 3 },
+    charisma: { enhanced: 11, unenhanced: 11, mod: 0 },
+  },
+  attacks: [
+    { name: "Combat Knife", toHitRank: 2, toHitStatMod: 3, damageDice: "1d6", damageStatMod: 2, effects: "Bleed 1" },
+    { name: "Sidearm", toHitRank: 2, toHitStatMod: 3, damageDice: "2d6", damageStatMod: 0, effects: "" },
+  ],
+  hotlist: Array.from({ length: 12 }, () => ""),
+  gear: {
+    head: "",
+    torso: "Reinforced Vest",
+    arms: "",
+    handsHolding: "Combat Knife",
+    legs: "",
+    feet: "",
+  },
+  accessories: Array.from({ length: 10 }, () => ""),
+  skills: [
+    { name: "Athletics", rank: 2, statMod: 2, checkType: "STR" },
+    { name: "Stealth", rank: 3, statMod: 3, checkType: "DEX" },
+  ],
+  skillUpgrades: [{ text: "", checked: false }],
+  inventoryNotes: "",
+  inventoryItems: [
+    { name: "Medkit", quantity: 2 },
+    { name: "Ration Pack", quantity: 5 },
+  ],
+  racialBenefits: "",
+  classBenefits: "",
+  notes: "",
+};

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { apiFetch } from "../api/client";
 
@@ -15,6 +16,9 @@ export function PlayerDashboardPage() {
       <h1>Player Dashboard</h1>
       <p>Welcome, {user?.username}.</p>
       <p>{message ?? "Loading..."}</p>
+      <p>
+        <Link to="/dashboard/player/character">View Character Sheet</Link>
+      </p>
       <button onClick={logout}>Log out</button>
     </div>
   );
