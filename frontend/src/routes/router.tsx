@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { LoginPage } from "../pages/LoginPage";
 import { DmDashboardPage } from "../pages/DmDashboardPage";
 import { PlayerDashboardPage } from "../pages/PlayerDashboardPage";
+import { CharacterSheetPage } from "../pages/CharacterSheetPage";
 import { UnauthorizedPage } from "../pages/UnauthorizedPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { ProtectedRoute } from "../auth/ProtectedRoute";
@@ -22,6 +23,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute role="PLAYER">
         <PlayerDashboardPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/dashboard/player/character",
+    element: (
+      <ProtectedRoute role="PLAYER">
+        <CharacterSheetPage />
       </ProtectedRoute>
     ),
   },
