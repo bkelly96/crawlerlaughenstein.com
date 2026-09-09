@@ -63,15 +63,15 @@ export function OverviewCombatSection({
       <div>
         <h3 className="font-semibold mb-2">Health Bar</h3>
         <HealthBar
-          slotValue={character.health.slotValue}
+          resistance={character.health.resistance}
           marked={character.health.marked}
           onChange={(marked) => onChange({ health: { ...character.health, marked } })}
         />
         <div className="mt-2 w-24">
           <NumberField
-            label="Slot Value"
-            value={character.health.slotValue}
-            onChange={(v) => onChange({ health: { ...character.health, slotValue: v } })}
+            label="Resistance"
+            value={character.health.resistance}
+            onChange={(v) => onChange({ health: { ...character.health, resistance: v } })}
           />
         </div>
       </div>

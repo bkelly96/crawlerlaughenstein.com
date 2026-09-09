@@ -4,18 +4,22 @@ import type { HealthBarState } from "../../types/character";
 const SLOT_COUNT = 10;
 
 export function HealthBar({
-  slotValue,
+  resistance,
   marked,
   onChange,
 }: {
-  slotValue: number;
+  resistance: number;
   marked: HealthBarState["marked"];
   onChange: (marked: HealthBarState["marked"]) => void;
 }) {
   const [damageInput, setDamageInput] = useState("");
 
-  const remainingSlots = marked.filter((isMarked) => !isMarked).length;
-  const remainingPercent = remainingSlots * 10;
+  // Slots must stay a contiguous marked run from the 100% end, so only the
+  // slot at each end of that boundary can ever be toggled — this is what
+  // prevents clicking slots out of order and leaving gaps.
+  const firstMarkedIndex = marked.indexOf(true);
+  const nextToMark = firstMarkedIndex === -1 ? SLOT_COUNT - 1 : firstMarkedIndex - 1;
+  const nextToUnmark = firstMarkedIndex === -1 ? null : firstMarkedIndex;
 
   function toggleSlot(index: number) {
     const next = [...marked] as HealthBarState["marked"];
@@ -33,9 +37,9 @@ export function HealthBar({
     // Leftover damage below a slot's value is discarded, not carried over.
     for (let i = SLOT_COUNT - 1; i >= 0; i--) {
       if (next[i]) continue;
-      if (remaining < slotValue) break;
+      if (remaining < resistance) break;
       next[i] = true;
-      remaining -= slotValue;
+      remaining -= resistance;
     }
     onChange(next);
     setDamageInput("");
@@ -44,31 +48,32 @@ export function HealthBar({
   return (
     <div>
       <div className="flex gap-1">
-        {marked.map((isMarked, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => toggleSlot(i)}
-            aria-pressed={isMarked}
-            title={`${(i + 1) * 10}% slot`}
-            className="relative flex-1 h-12 rounded border border-black/20 flex items-center justify-center text-sm font-semibold text-white"
-            style={{ backgroundColor: `hsl(${(i / (SLOT_COUNT - 1)) * 120}, 65%, 42%)` }}
-          >
-            <span className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">{slotValue}</span>
-            <span
-              className={"absolute top-0.5 right-0.5 w-2.5 h-2.5 " + (isMarked ? "bg-black/80" : "bg-white/30")}
-              style={{ clipPath: "polygon(100% 0, 0 0, 100% 100%)" }}
-            />
-          </button>
-        ))}
+        {marked.map((isMarked, i) => {
+          const clickable = i === nextToMark || i === nextToUnmark;
+          return (
+            <button
+              key={i}
+              type="button"
+              onClick={() => toggleSlot(i)}
+              disabled={!clickable}
+              aria-pressed={isMarked}
+              title={`${(i + 1) * 10}% slot`}
+              className={
+                "flex-1 h-12 rounded border border-black/20 flex items-center justify-center text-sm font-semibold " +
+                (isMarked ? "bg-gray-200 text-gray-400" : "text-white") +
+                (clickable ? " cursor-pointer" : " cursor-not-allowed")
+              }
+              style={isMarked ? undefined : { backgroundColor: `hsl(${(i / (SLOT_COUNT - 1)) * 120}, 65%, 42%)` }}
+            >
+              {!isMarked && <span className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">{resistance}</span>}
+            </button>
+          );
+        })}
       </div>
       <div className="flex justify-between text-xs text-gray-500 mt-1">
         <span>10%</span>
         <span>100%</span>
       </div>
-      <p className="mt-1 text-sm">
-        <strong>{remainingPercent}%</strong> remaining ({remainingSlots}/{SLOT_COUNT} slots)
-      </p>
 
       <div className="flex items-end gap-2 mt-2">
         <label className="flex flex-col text-sm gap-1">

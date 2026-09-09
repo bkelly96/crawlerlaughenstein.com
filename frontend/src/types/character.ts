@@ -40,7 +40,7 @@ export interface GearSlots {
 }
 
 export interface HealthBarState {
-  slotValue: number;
+  resistance: number;
   /** index 0 = 10% (red, leftmost) ... index 9 = 100% (green, rightmost). true = marked off/lost. */
   marked: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 }

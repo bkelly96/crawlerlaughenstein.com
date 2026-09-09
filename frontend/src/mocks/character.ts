@@ -10,7 +10,7 @@ export const mockCharacter: CharacterSheet = {
   className: "Skirmisher",
   portraitUrl: null,
   health: {
-    slotValue: 4,
+    resistance: 4,
     marked: [false, false, false, false, false, false, false, false, false, false],
   },
   evade: { dexMod: 3, buffs: 0 },
