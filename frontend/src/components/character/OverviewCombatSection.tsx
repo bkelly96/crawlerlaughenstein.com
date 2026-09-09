@@ -1,3 +1,4 @@
+import type { ChangeEvent } from "react";
 import type { CharacterSheet } from "../../types/character";
 import { HealthBar } from "./HealthBar";
 import { NumberField, TextField } from "./fields";
@@ -18,11 +19,28 @@ export function OverviewCombatSection({
     onChange({ externalBuffs: next });
   }
 
+  function handlePortraitChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (character.portraitUrl) URL.revokeObjectURL(character.portraitUrl);
+    onChange({ portraitUrl: URL.createObjectURL(file) });
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap gap-6">
-        <div className="w-28 h-36 shrink-0 border border-dashed border-gray-300 rounded flex items-center justify-center text-xs text-gray-400 text-center p-2">
-          Portrait
+        <div className="w-28 shrink-0 flex flex-col items-center gap-2">
+          <div className="w-28 h-36 border border-dashed border-gray-300 rounded flex items-center justify-center text-xs text-gray-400 text-center overflow-hidden">
+            {character.portraitUrl ? (
+              <img src={character.portraitUrl} alt="Character portrait" className="w-full h-full object-cover" />
+            ) : (
+              "Portrait"
+            )}
+          </div>
+          <label className="text-xs text-purple-700 hover:underline cursor-pointer">
+            Upload
+            <input type="file" accept="image/*" onChange={handlePortraitChange} className="hidden" />
+          </label>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 flex-1 min-w-[16rem]">
           <TextField label="Name" value={character.name} onChange={(v) => onChange({ name: v })} />
