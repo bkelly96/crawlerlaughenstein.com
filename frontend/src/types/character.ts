@@ -16,7 +16,7 @@ export interface Attack {
 export interface SkillRow {
   name: string;
   rank: number;
-  statMod: number;
+  statAndMod: string;
   checkType: string;
 }
 

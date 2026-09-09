@@ -42,8 +42,8 @@ export const mockCharacter: CharacterSheet = {
   },
   accessories: Array.from({ length: 10 }, () => ""),
   skills: [
-    { name: "Athletics", rank: 2, statMod: 2, checkType: "STR" },
-    { name: "Stealth", rank: 3, statMod: 3, checkType: "DEX" },
+    { name: "Athletics", rank: 2, statAndMod: "STR +2", checkType: "Contested" },
+    { name: "Stealth", rank: 3, statAndMod: "DEX +3", checkType: "Static" },
   ],
   skillUpgrades: [{ text: "", checked: false }],
   inventoryNotes: "",
