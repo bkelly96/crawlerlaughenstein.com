@@ -1,0 +1,33 @@
+.page {
+  max-width: 24rem;
+  margin: 4rem auto;
+  padding: 0 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+.page form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.page label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.page input {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.page button {
+  padding: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.page p[role="alert"] {
+  color: #b00020;
+}

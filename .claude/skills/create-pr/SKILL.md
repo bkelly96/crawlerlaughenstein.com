@@ -41,6 +41,11 @@ A branch here is often stacked on another in-progress feature branch, not direct
 ## 3. Commit
 
 - Stage only the files relevant to this change by name (never `git add -A`/`.`).
+- Before staging, check the actual diff content for real secrets or personal data
+  (passwords, API keys, tokens, connection strings with credentials, personal info) —
+  not just whether the filename looks sensitive. `.gitignore` stops a whole file like
+  `.env` from being tracked, but doesn't stop a real value pasted into a tracked file.
+  If anything like that is present, stop and flag it to the user instead of staging it.
 - Write the message in this repo's existing style: `type(scope): imperative summary`
   subject, optional body explaining *why*, via a heredoc (never `-m` string concatenation
   for multi-line messages). Check `git log --oneline -10` first to match current

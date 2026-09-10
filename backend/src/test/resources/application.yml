@@ -1,0 +1,4 @@
+app:
+  jwt:
+    secret: test-secret-key-for-integration-tests-only-not-for-prod-use-0123456789
+    expiration-minutes: 60
