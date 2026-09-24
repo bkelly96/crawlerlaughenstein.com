@@ -30,10 +30,12 @@ See `docs/adr/` for the reasoning behind these and other choices.
    cd backend
    mvn spring-boot:run
    ```
-   On startup, Flyway creates the schema and seeds two accounts (see
-   `backend/src/main/resources/db/migration/V2__seed_initial_users.sql`):
-   - `dm1` / `ChangeMe123!DM`
-   - `player1` / `ChangeMe123!Player`
+   On startup, Flyway creates the schema and seeds two accounts, `dm1` (DM role) and `player1`
+   (Player role) — see
+   `backend/src/main/resources/db/migration/V2__seed_initial_users.sql`. Their passwords are not
+   documented here; ask the repo owner for current local dev credentials, or see
+   `docs/adr/0006-seed-credential-exposure-and-rotation-policy.md` for why, and how to rotate
+   them yourself if needed.
 
    The API listens on `http://localhost:8080`.
 
