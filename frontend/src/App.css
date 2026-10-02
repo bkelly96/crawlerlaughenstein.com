@@ -27,8 +27,9 @@
 }
 
 .page button {
-  padding: 0.5rem;
-  font-size: 1rem;
+  align-self: center;
+  padding: 0.4rem 1.5rem;
+  font-size: 0.9rem;
   cursor: pointer;
   background: var(--accent);
   color: #fff;
