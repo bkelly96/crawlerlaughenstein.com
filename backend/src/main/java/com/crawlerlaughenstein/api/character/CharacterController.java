@@ -4,6 +4,7 @@ import com.crawlerlaughenstein.api.auth.UserPrincipal;
 import com.crawlerlaughenstein.api.character.dto.CharacterResponse;
 import com.crawlerlaughenstein.api.character.dto.CharacterSummary;
 import com.crawlerlaughenstein.api.character.dto.CharacterUpdateRequest;
+import com.crawlerlaughenstein.api.common.exception.ConflictException;
 import com.crawlerlaughenstein.api.common.exception.ResourceNotFoundException;
 import com.crawlerlaughenstein.api.user.Role;
 import jakarta.validation.Valid;
@@ -50,6 +51,11 @@ public class CharacterController {
                                     @Valid @RequestBody CharacterUpdateRequest request,
                                     @AuthenticationPrincipal UserPrincipal principal) {
         CharacterSheet character = findReadable(id, principal);
+        // Optimistic locking (docs/adr/0008): reject saves based on a stale copy. @Version on the
+        // entity also catches a concurrent write landing between this check and the save.
+        if (!character.getVersion().equals(request.version())) {
+            throw new ConflictException("This character was changed elsewhere since you loaded it");
+        }
         character.setName(request.name());
         character.setLevel(request.level());
         character.setBody(request.body());
@@ -64,6 +70,7 @@ public class CharacterController {
     }
 
     private CharacterResponse toResponse(CharacterSheet character) {
-        return new CharacterResponse(character.getId(), character.getName(), character.getLevel(), character.getBody());
+        return new CharacterResponse(character.getId(), character.getName(), character.getLevel(),
+                character.getVersion(), character.getBody());
     }
 }

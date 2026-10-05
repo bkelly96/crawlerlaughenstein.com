@@ -96,11 +96,13 @@ class CharacterApiIntegrationTest {
         @SuppressWarnings("unchecked")
         Map<String, Object> body = new HashMap<>((Map<String, Object>) character.get("body"));
         body.put("notes", "Updated by integration test");
-        Map<String, Object> update = Map.of("name", character.get("name"), "level", 4, "body", body);
+        long version = ((Number) character.get("version")).longValue();
+        Map<String, Object> update = Map.of("name", character.get("name"), "level", 4, "body", body, "version", version);
 
         ResponseEntity<CharacterResponse> put = exchange(
                 HttpMethod.PUT, "/api/characters/" + id, token, update, CharacterResponse.class);
         assertThat(put.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(put.getBody().version()).isEqualTo(version + 1);
 
         Map<String, Object> reloaded = getAsMap(id, token);
         assertThat(reloaded.get("level")).isEqualTo(4);
@@ -108,11 +110,33 @@ class CharacterApiIntegrationTest {
     }
 
     @Test
+    void saveWithStaleVersionReturns409AndDoesNotOverwrite() {
+        String token = login("player1");
+        UUID id = list(token).get(0).id();
+        Map<String, Object> loaded = getAsMap(id, token);
+
+        // First save from this copy succeeds and bumps the version.
+        Map<String, Object> first = new HashMap<>(loaded);
+        first.put("name", "Saved First");
+        assertThat(exchange(HttpMethod.PUT, "/api/characters/" + id, token, first, String.class).getStatusCode())
+                .isEqualTo(HttpStatus.OK);
+
+        // A second save based on the same (now stale) copy is rejected.
+        Map<String, Object> second = new HashMap<>(loaded);
+        second.put("name", "Saved Second");
+        assertThat(exchange(HttpMethod.PUT, "/api/characters/" + id, token, second, String.class).getStatusCode())
+                .isEqualTo(HttpStatus.CONFLICT);
+
+        assertThat(getAsMap(id, token).get("name")).isEqualTo("Saved First");
+    }
+
+    @Test
     void invalidUpdateReturns400() {
         String token = login("player1");
         UUID id = list(token).get(0).id();
         Map<String, Object> character = getAsMap(id, token);
-        Map<String, Object> update = Map.of("name", "", "level", 0, "body", character.get("body"));
+        Map<String, Object> update = Map.of(
+                "name", "", "level", 0, "body", character.get("body"), "version", character.get("version"));
 
         assertThat(exchange(HttpMethod.PUT, "/api/characters/" + id, token, update, String.class).getStatusCode())
                 .isEqualTo(HttpStatus.BAD_REQUEST);

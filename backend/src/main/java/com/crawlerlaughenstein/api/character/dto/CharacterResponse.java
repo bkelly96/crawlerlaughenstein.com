@@ -4,5 +4,5 @@ import com.crawlerlaughenstein.api.character.CharacterSheetBody;
 
 import java.util.UUID;
 
-public record CharacterResponse(UUID id, String name, Integer level, CharacterSheetBody body) {
+public record CharacterResponse(UUID id, String name, Integer level, Long version, CharacterSheetBody body) {
 }

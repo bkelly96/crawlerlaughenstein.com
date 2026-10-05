@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 public record CharacterUpdateRequest(
         @NotBlank @Size(max = 100) String name,
         @NotNull @Min(1) Integer level,
-        @NotNull CharacterSheetBody body
+        @NotNull CharacterSheetBody body,
+        @NotNull Long version
 ) {
 }
