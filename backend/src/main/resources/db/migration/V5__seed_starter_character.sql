@@ -1,0 +1,58 @@
+-- Starter character for the player1 seed account so there is a real sheet to load and save
+-- until a create-character flow exists (docs/adr/0008). Fictional sample data, copied from the
+-- frontend mock (frontend/src/mocks/character.ts).
+INSERT INTO characters (id, player_id, name, level, body)
+SELECT gen_random_uuid(), u.id, 'Vex Halloway', 3, '{
+  "raceName": "Human",
+  "genderPronouns": "She/Her",
+  "crawlerNumber": "CL-0417",
+  "className": "Skirmisher",
+  "portraitUrl": null,
+  "health": {
+    "resistance": 4,
+    "marked": [false, false, false, false, false, false, false, false, false, false]
+  },
+  "evade": { "dexMod": 3, "buffs": 0 },
+  "move": 30,
+  "step": 5,
+  "damageResistance": { "armor": 4, "buffs": 0 },
+  "aiFavor": 1,
+  "size": "Medium",
+  "externalBuffs": ["", "", ""],
+  "abilities": {
+    "strength": { "enhanced": 14, "unenhanced": 12, "mod": 2 },
+    "intelligence": { "enhanced": 10, "unenhanced": 10, "mod": 0 },
+    "constitution": { "enhanced": 16, "unenhanced": 14, "mod": 3 },
+    "dexterity": { "enhanced": 17, "unenhanced": 15, "mod": 3 },
+    "charisma": { "enhanced": 11, "unenhanced": 11, "mod": 0 }
+  },
+  "attacks": [
+    { "name": "Combat Knife", "toHitRank": 2, "toHitStatMod": 3, "damageDice": "1d6", "damageStatMod": 2, "effects": "Bleed 1" },
+    { "name": "Sidearm", "toHitRank": 2, "toHitStatMod": 3, "damageDice": "2d6", "damageStatMod": 0, "effects": "" }
+  ],
+  "hotlist": ["", "", "", "", "", "", "", "", "", "", "", ""],
+  "gear": {
+    "head": "",
+    "torso": "Reinforced Vest",
+    "arms": "",
+    "handsHolding": "Combat Knife",
+    "legs": "",
+    "feet": ""
+  },
+  "accessories": ["", "", "", "", "", "", "", "", "", ""],
+  "skills": [
+    { "name": "Athletics", "rank": 2, "statAndMod": "STR +2", "checkType": "Contested" },
+    { "name": "Stealth", "rank": 3, "statAndMod": "DEX +3", "checkType": "Static" }
+  ],
+  "skillUpgrades": [{ "text": "", "checked": false }],
+  "inventoryNotes": "",
+  "inventoryItems": [
+    { "name": "Medkit", "quantity": 2 },
+    { "name": "Ration Pack", "quantity": 5 }
+  ],
+  "racialBenefits": "",
+  "classBenefits": "",
+  "notes": ""
+}'::jsonb
+FROM users u
+WHERE u.username = 'player1';
