@@ -27,7 +27,7 @@ export function LoginPage() {
 
   return (
     <div className="page">
-      <h1>Dungeon Crawler Carl</h1>
+      <h1>Laughenstein's Crawlerstein</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Username
