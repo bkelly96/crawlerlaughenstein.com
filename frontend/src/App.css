@@ -5,6 +5,11 @@
   font-family: system-ui, sans-serif;
 }
 
+/* Inherited line-height is fixed at body size, so a wrapping heading's lines overlap. */
+.page h1 {
+  line-height: 1.15;
+}
+
 .page form {
   display: flex;
   flex-direction: column;
