@@ -47,6 +47,8 @@ export interface HealthBarState {
 
 export interface CharacterSheet {
   id: string;
+  /** Optimistic-locking version from the API; sent back on save (docs/adr/0008). */
+  version: number;
   name: string;
   raceName: string;
   genderPronouns: string;

@@ -5,6 +5,11 @@
   font-family: system-ui, sans-serif;
 }
 
+/* Inherited line-height is fixed at body size, so a wrapping heading's lines overlap. */
+.page h1 {
+  line-height: 1.15;
+}
+
 .page form {
   display: flex;
   flex-direction: column;
@@ -20,12 +25,21 @@
 .page input {
   padding: 0.5rem;
   font-size: 1rem;
+  background: #f4f3ec;
+  color: #08060d;
+  border: 1px solid var(--border);
+  border-radius: 4px;
 }
 
 .page button {
-  padding: 0.5rem;
-  font-size: 1rem;
+  align-self: center;
+  padding: 0.4rem 1.5rem;
+  font-size: 0.9rem;
   cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
 }
 
 .page p[role="alert"] {
